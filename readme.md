@@ -10,6 +10,6 @@ how to make your integrations seamless.
 
 
 
-![postman]("")
-![slack]("")
-![swagger]("")
+![postman](https://github.com/kisevu/slack-integrations/blob/main/src/main/resources/static/postman-rep.JPG)
+![slack](https://github.com/kisevu/slack-integrations/blob/main/src/main/resources/static/slack-rep.JPG)
+![swagger](https://github.com/kisevu/slack-integrations/blob/main/src/main/resources/static/swagger-docs.JPG)
