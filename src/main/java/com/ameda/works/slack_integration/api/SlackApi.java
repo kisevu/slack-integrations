@@ -70,5 +70,22 @@ public class SlackApi {
         return response;
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<?> userRead(@RequestParam String user) {
+        String url = "https://slack.com/api/users.info?user=" + user; // Include the user parameter in the URL
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(slackToken);  // Set the Bearer token for authentication
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        // Make the GET request to Slack API with the URL containing the user query parameter
+        ResponseEntity<String> response = restTemplate.postForEntity(url,requestEntity,String.class);
+        return response;
+
+    }
+
+
 
 }
