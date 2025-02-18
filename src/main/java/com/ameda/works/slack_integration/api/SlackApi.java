@@ -3,12 +3,10 @@ package com.ameda.works.slack_integration.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,5 +42,33 @@ public class SlackApi {
         ResponseEntity<String> response = restTemplate.postForEntity(url,request,String.class);
         return response;
     }
+    @GetMapping("/read-message")
+    public ResponseEntity<?> readMessage(@RequestParam String channel) {
+        String url = "https://slack.com/api/conversations.list";
+
+        // Set headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(slackToken);  // Using Bearer token for Authorization
+
+        // Use UriComponentsBuilder to add query parameters
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("channel", channel);
+
+        // Create the request entity with headers (no payload for GET request)
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        // Make the GET request
+        ResponseEntity<String> response = restTemplate.exchange(
+                uriBuilder.toUriString(), // URL with query parameter
+                HttpMethod.GET, // HTTP method
+                requestEntity, // Request with headers
+                String.class // Expected response type
+        );
+
+        // Return the response from Slack API
+        return response;
+    }
+
 
 }
